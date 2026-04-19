@@ -61,47 +61,53 @@ const Projects = () => {
   return (
     <motion.section
       id="projects"
-      className="py-32 bg-background relative overflow-hidden"
+      className="py-12 md:py-24 flex flex-col justify-center bg-background relative overflow-hidden w-full md:w-max shrink-0 h-auto md:h-screen"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7 }}
     >
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-24 space-y-6">
+      <div className="relative z-10 flex flex-col md:flex-row items-center h-full gap-12 md:gap-20 md:pr-[10vw]">
+        {/* Intro Slide */}
+        <div className="w-full md:w-[50vw] lg:w-[40vw] shrink-0 flex flex-col justify-center px-8 md:pl-20 relative">
           <motion.h2 
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="text-[12vw] font-black text-foreground/[0.03] absolute top-20 left-1/2 -translate-x-1/2 uppercase select-none pointer-events-none"
+            className="text-[12vw] font-black text-foreground/[0.03] absolute -top-20 left-0 uppercase select-none pointer-events-none"
           >
             Portfolio
           </motion.h2>
           
-          <div className="relative z-10 space-y-4">
-            <h3 className="text-sm font-bold tracking-[0.5em] text-snow-accent uppercase">
+          <div className="relative z-10 space-y-4 max-w-xl">
+            <h3 className="section-label">
               Proven Excellence
             </h3>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter">
-              FEATURED <span className="text-muted-foreground/30">WORKS</span>
+            <h2 className="section-title">
+              FEATURED <span className="section-title-muted">WORKS</span>
             </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              A collection of full-stack applications showcasing complex problem-solving, intuitive user experiences, and scalable architectures.
+            </p>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
+        {/* Project Cards horizontally stacked with a tighter gap */}
+        <div className="flex flex-col md:flex-row gap-12 md:gap-16 shrink-0 px-4 md:px-0">
           {projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              title={project.title}
-              description={project.description}
-              imageSrc={project.imageSrc}
-              techStack={project.techStack}
-              liveUrl={project.liveUrl}
-              githubUrl={project.githubUrl}
-              featured={project.featured}
-              problem={project.problem}
-              solution={project.solution}
-              features={project.features}
-            />
+            <div key={project.id} className="w-full md:w-[70vw] lg:w-[45vw] max-w-[900px] shrink-0">
+              <ProjectCard
+                title={project.title}
+                description={project.description}
+                imageSrc={project.imageSrc}
+                techStack={project.techStack}
+                liveUrl={project.liveUrl}
+                githubUrl={project.githubUrl}
+                featured={project.featured}
+                problem={project.problem}
+                solution={project.solution}
+                features={project.features}
+              />
+            </div>
           ))}
         </div>
       </div>

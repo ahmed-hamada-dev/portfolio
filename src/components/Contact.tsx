@@ -41,10 +41,6 @@ const Contact: React.FC = () => {
       ref={sectionRef}
       id="contact"
       className="py-32 bg-background relative overflow-hidden"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7 }}
     >
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-24 space-y-6">
@@ -57,11 +53,11 @@ const Contact: React.FC = () => {
           </motion.h2>
 
           <div className="relative z-10 space-y-4">
-            <h3 className="text-sm font-bold tracking-[0.5em] text-snow-accent uppercase">
+            <h3 className="section-label">
               Start a Conversation
             </h3>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter">
-              GET IN <span className="text-muted-foreground/30">TOUCH</span>
+            <h2 className="section-title">
+              GET IN <span className="section-title-muted">TOUCH</span>
             </h2>
           </div>
         </div>

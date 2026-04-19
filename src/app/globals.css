@@ -147,6 +147,28 @@
   }
 }
 
+@layer components {
+  .section-label {
+    @apply text-[10px] md:text-xs font-black uppercase tracking-widest text-snow-accent;
+  }
+  .section-title {
+    @apply text-5xl md:text-7xl font-black tracking-tighter uppercase;
+  }
+  .section-title-muted {
+    @apply text-muted-foreground/30;
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Custom styles for infinite scrolling */
 @keyframes scroll {
   from {

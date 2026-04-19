@@ -113,14 +113,14 @@ const TechSlider = () => {
     <motion.section
       ref={sectionRef}
       id="tech"
-      className="py-32 bg-background relative overflow-hidden"
+      className="py-12 md:py-24 flex flex-col justify-center bg-background relative overflow-hidden w-full md:w-screen shrink-0 h-auto md:h-screen"
     >
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-snow-accent/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/5 blur-[100px] rounded-full translate-y-1/2 -translate-x-1/2" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
+        <div className="flex flex-col md:flex-row items-end justify-between mb-10 gap-8">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -128,11 +128,11 @@ const TechSlider = () => {
             transition={{ duration: 0.8 }}
             className="max-w-2xl"
           >
-            <h2 className="text-sm font-bold tracking-[0.3em] text-snow-accent uppercase mb-4">
+            <h2 className="section-label mb-4">
               Capabilities
             </h2>
-            <h3 className="text-4xl md:text-6xl font-black tracking-tighter">
-              MY TECH <span className="text-muted-foreground/30">STACK</span>
+            <h3 className="section-title">
+              MY TECH <span className="section-title-muted">STACK</span>
             </h3>
           </motion.div>
 
@@ -186,7 +186,7 @@ const TechSlider = () => {
         </div>
 
         {/* Infinite Logo Marquee */}
-        <div className="mt-40 relative pb-10">
+        <div className="mt-12 md:mt-20 relative pb-10">
           <div className="absolute top-0 left-0 w-40 h-full bg-gradient-to-r from-background to-transparent z-10" />
           <div className="absolute top-0 right-0 w-40 h-full bg-gradient-to-l from-background to-transparent z-10" />
 

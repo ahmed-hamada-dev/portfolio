@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import Projects from "@/components/Projects";
 import TechSlider from "@/components/TechSlider";
+import { HorizontalScrollSection } from "@/components/HorizontalScrollSection";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef } from "react";
 
@@ -122,9 +123,11 @@ const Page = () => {
         <Navbar />
         <main>
           <Hero />
-          <TechSlider />
-          <About />
-          <Projects />
+          <HorizontalScrollSection>
+            <TechSlider />
+            <About />
+            <Projects />
+          </HorizontalScrollSection>
           <Contact />
         </main>
         <Footer />

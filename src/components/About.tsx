@@ -58,18 +58,18 @@ const About: React.FC = () => {
     <motion.section
       ref={sectionRef}
       id="about"
-      className="py-32 bg-background relative overflow-hidden"
+      className="py-12 md:py-24 flex flex-col justify-center bg-background relative overflow-hidden w-full md:w-screen shrink-0 h-auto md:h-screen"
     >
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Left Side: Content */}
           <div className="space-y-10">
             <div className="space-y-4">
-              <h2 className="about-reveal text-sm font-bold tracking-[0.3em] text-snow-accent uppercase">
+              <h2 className="about-reveal section-label">
                 The Architect
               </h2>
-              <h3 className="about-reveal text-5xl md:text-7xl font-black tracking-tight leading-none">
-                CRAFTING <span className="text-muted-foreground/30">DIGITAL</span> PRECISION
+              <h3 className="about-reveal section-title">
+                CRAFTING <span className="section-title-muted">DIGITAL</span> PRECISION
               </h3>
             </div>
 

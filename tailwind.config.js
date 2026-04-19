@@ -2,14 +2,7 @@ module.exports = {
     content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
     theme: {
         extend: {
-            colors: {
-                snowy: {
-                    white: 'oklch(0.99 0.01 240)', // Soft white-blue
-                    light: 'oklch(0.95 0.02 220)', // Light snowy blue
-                    accent: 'oklch(0.85 0.1 210)', // Vibrant blue accent
-                    gray: 'oklch(0.92 0.01 240)',  // Soft gray
-                },
-            },
+            colors: {},
             keyframes: {
                 'accordion-down': {
                     from: {
