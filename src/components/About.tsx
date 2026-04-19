@@ -60,7 +60,9 @@ const About: React.FC = () => {
       id="about"
       className="py-12 md:py-24 flex flex-col justify-center bg-background relative overflow-hidden w-full md:w-screen shrink-0 h-auto md:h-screen"
     >
-      <div className="container mx-auto px-4 relative z-10">
+      <div 
+        className="container mx-auto px-4 relative z-10 origin-bottom"
+      >
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Left Side: Content */}
           <div className="space-y-10">

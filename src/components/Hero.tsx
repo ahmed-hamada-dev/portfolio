@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
@@ -7,20 +7,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ─── Constants ─────────────────────────────────────────────────────
-const FRAME_COUNT = 60;
-const FRAME_PATH = (index: number) =>
-  `/frames/ezgif-frame-${String(index * 4).padStart(3, "0")}.jpg`;
-
 // ─── Main Hero Component ───────────────────────────────────────────
 const Hero: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
-  const currentFrameRef = useRef(0);
-  const rafIdRef = useRef(0);
-  const pendingFrameRef = useRef(-1);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Text overlay refs
   const titleRef = useRef<HTMLDivElement>(null);
@@ -30,130 +21,49 @@ const Hero: React.FC = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollPromptRef = useRef<HTMLDivElement>(null);
 
-  // ── Render a frame to the canvas (via rAF for smooth updates) ──
-  const drawFrame = useCallback((frameIndex: number) => {
-    const canvas = canvasRef.current;
-    const ctx = ctxRef.current;
-    if (!canvas || !ctx) return;
-
-    const img = imagesRef.current[frameIndex];
-    if (!img || !img.complete) return;
-
-    // Use CSS pixel dimensions (canvas is scaled by DPR)
-    const cssW = parseInt(canvas.style.width) || canvas.width;
-    const cssH = parseInt(canvas.style.height) || canvas.height;
-    const canvasRatio = cssW / cssH;
-    const imgRatio = img.naturalWidth / img.naturalHeight;
-
-    let drawWidth: number, drawHeight: number, offsetX: number, offsetY: number;
-
-    // Use "contain" logic so the whole frame is always fully visible
-    if (imgRatio > canvasRatio) {
-      // Image is wider than the container -> scale to fit width
-      drawWidth = cssW;
-      drawHeight = drawWidth / imgRatio;
-      offsetX = 0;
-      offsetY = (cssH - drawHeight) / 2;
-    } else {
-      // Image is taller than the container -> scale to fit height
-      drawHeight = cssH;
-      drawWidth = drawHeight * imgRatio;
-      offsetX = (cssW - drawWidth) / 2;
-      offsetY = 0;
-    }
-
-    ctx.clearRect(0, 0, cssW, cssH);
-    ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-  }, []);
-
-  // Batched rendering via requestAnimationFrame to avoid jank
-  const requestFrame = useCallback(
-    (frameIndex: number) => {
-      pendingFrameRef.current = frameIndex;
-      if (!rafIdRef.current) {
-        rafIdRef.current = requestAnimationFrame(() => {
-          rafIdRef.current = 0;
-          if (pendingFrameRef.current >= 0) {
-            drawFrame(pendingFrameRef.current);
-          }
-        });
-      }
-    },
-    [drawFrame],
-  );
-
-  // ── Resize canvas to match viewport (DPR-aware) ──
-  const handleResize = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    // Use CSS pixels for layout, scale for DPR internally
-    const dpr = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2x
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.scale(dpr, dpr);
-      ctxRef.current = ctx;
-    }
-    drawFrame(currentFrameRef.current);
-  }, [drawFrame]);
-
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // ── Preload all frames ──
-    const images: HTMLImageElement[] = [];
-    let loadedCount = 0;
+    const video = videoRef.current;
+    if (!video) return;
 
-    for (let i = 1; i <= FRAME_COUNT; i++) {
-      const img = new Image();
-      img.src = FRAME_PATH(i);
-      img.onload = () => {
-        loadedCount++;
-        // Render first frame as soon as it loads
-        if (i === 1) {
-          handleResize();
-          drawFrame(0);
-        }
-      };
-      images.push(img);
+    // Wait for video metadata to load
+    const onReady = () => {
+      setIsLoaded(true);
+      // Ensure video starts at frame 0
+      video.currentTime = 0;
+    };
+
+    if (video.readyState >= 2) {
+      onReady();
+    } else {
+      video.addEventListener("loadeddata", onReady, { once: true });
     }
-    imagesRef.current = images;
 
-    // ── Set canvas size ──
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    // ── GSAP ScrollTrigger — scrub through frames ──
-    const frameObj = { frame: 0 };
-
+    // ── GSAP ScrollTrigger — scrub video.currentTime ──
     const ctx = gsap.context(() => {
-      // Master timeline
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=3500", // 3500px of scroll = 240 frames (snappier)
+          end: "+=3500",
           pin: true,
-          scrub: 0.3, // Tight tracking
+          scrub: 0.5, // Slightly more smoothing for video
           anticipatePin: 1,
         },
       });
 
-      // Frame scrubbing
+      // Scrub through the video by setting currentTime
+      const proxy = { time: 0 };
       tl.to(
-        frameObj,
+        proxy,
         {
-          frame: FRAME_COUNT - 1,
+          time: 1,
           ease: "none",
           duration: 1,
           onUpdate: () => {
-            const idx = Math.round(frameObj.frame);
-            if (idx !== currentFrameRef.current) {
-              currentFrameRef.current = idx;
-              requestFrame(idx);
+            if (video && video.duration) {
+              video.currentTime = proxy.time * video.duration;
             }
           },
         },
@@ -212,11 +122,9 @@ const Hero: React.FC = () => {
     }, sectionRef);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
       ctx.revert();
     };
-  }, [handleResize, drawFrame, requestFrame]);
+  }, []);
 
   return (
     <section
@@ -225,11 +133,27 @@ const Hero: React.FC = () => {
       className="relative h-screen w-full overflow-hidden"
       style={{ backgroundColor: "#000000" }}
     >
-      {/* The Canvas — renders frame sequence */}
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      {/* Loading indicator */}
+      {!isLoaded && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black">
+          <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+        </div>
+      )}
+
+      {/* Video element — scroll-scrubbed, not autoplaying */}
+      <video
+        ref={videoRef}
+        src="/hero.mp4"
+        muted
+        playsInline
+        preload="auto"
+        className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+        style={{
+          backgroundColor: "#000",
+        }}
+      />
 
       {/* ── Text Overlays ── */}
-      {/* All text sits on top of the canvas */}
       <div className="absolute inset-0 z-10 pointer-events-none">
         {/* Main Title */}
         <div
