@@ -56,7 +56,9 @@ I build modern, high-performance web applications with a focus on clean architec
 
 | Project | Description | Stack |
 |---------|-------------|-------|
-| [**Spider Platform**](https://fy.sa) | SaaS solution with real-time GPS tracking, trip replay, and driver management | Hono · TanStack · PostgreSQL · Redis |
+| [**School Platform**](https://github.com/ahmed-hamada-dev) | Full-scale school management system with 6 role-based dashboards, GPS bus tracking, course marketplace, gamified Mental Math & parent monitoring | Hono.js · TanStack Start · PostgreSQL · Redis · BullMQ · Flutter |
+| [**Brave Online**](https://braveonline.online) | Large-scale education ERP with role-based dashboards, real-time chat, QR enrollment & device security | Hono.js · TanStack · PostgreSQL · Redis · BullMQ |
+| [**Spider Platform**](https://fy.sa) | Scalable learning platform with gamified assessments, leaderboards & Apple Pay | Next.js 15 · Prisma · Better Auth · Recharts |
 | [**Pet Community**](https://github.com/ahmed-hamada-dev/pet-store) | E-commerce & community platform with real-time chat and Stripe payments | Next.js · PostgreSQL · Stripe · WebSockets |
 | [**AI Workout Generator**](https://github.com/ahmed-hamada-dev/ai-workout-generator) | AI-powered fitness planner using natural language input | Next.js · Vapi · Gemini API · Convex |
 | [**Discovery SaaS**](https://github.com/ahmed-hamada-dev/v1-hunt-clone) | Product Hunt-style platform for creators to showcase and rank products | Next.js · PostgreSQL · Stripe |
