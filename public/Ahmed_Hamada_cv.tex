@@ -1,0 +1,170 @@
+
+% https://www.overleaf.com/
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot,
+    top=0.5cm,
+    bottom=0.0cm,
+    left=2cm,
+    right=2cm,
+    footskip=0.8cm
+]{geometry}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{primaryColor}{RGB}{0, 0, 0}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{amsmath}
+\usepackage[
+    pdftitle={Ahmed Hamada's CV},
+    pdfauthor={Ahmed Hamada},
+    pdfcreator={LaTeX},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref}
+\usepackage[pscoord]{eso-pic}
+\usepackage{calc}
+\usepackage{bookmark}
+\usepackage{changepage}
+\usepackage{paracol}
+\usepackage{ifthen}
+\usepackage{needspace}
+\usepackage{iftex}
+
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+\fi
+
+\usepackage{charter}
+
+% General settings:
+\raggedright
+\pagestyle{empty}
+\setcounter{secnumdepth}{0}
+\setlength{\parindent}{0pt}
+\setlength{\columnsep}{0.15cm}
+\pagenumbering{gobble}
+
+\titleformat{\section}{\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\titlespacing{\section}{0pt}{0.2cm}{0.15cm}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$}
+
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.08cm,
+        parsep=0.08cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+}
+
+\begin{document}
+\renewcommand{\baselinestretch}{0.95}\selectfont
+
+% ================ HEADER ================
+\begin{center}
+    {\fontsize{25pt}{15pt}\selectfont Ahmed Hamada}
+
+    {\large \textbf{Full-Stack Developer}}
+
+    \vspace{5pt}
+
+    Cairo, Egypt \,|\,
+    \href{mailto:contact@ahmed-hamada.dev}{contact@ahmed-hamada.dev} \,|\,
+    \href{tel:+201060257232}{+20 106 025 7232} \,|\,
+    \href{https://github.com/ahmed-hamada-dev}{github.com/ahmed-hamada-dev} \,|\,
+    \href{https://linkedin.com/in/ahmed-hamada-dev}{linkedin.com/in/ahmed-hamada-dev} \,|\,
+    \href{https://ahmed-hamada.dev}{ahmed-hamada.dev}
+\end{center}
+
+\vspace{0.15cm}
+
+% ================ SUMMARY ================
+\section{Summary}
+
+Full-Stack Developer with 3 production platforms shipped end-to-end. Built a school management system (40+ models, 6 dashboards, real-time GPS tracking), an LMS with Apple Pay, and an education ERP — all live and serving real users. Proficient in \textbf{TypeScript, Next.js, Hono.js, PostgreSQL, Prisma}.
+
+% ================ TECHNICAL SKILLS ================
+\section{Technical Skills}
+
+\textbf{Frontend:} TypeScript, React.js, Next.js 15, TanStack Start, TanStack Query, Tailwind CSS, Framer Motion, Shadcn UI
+
+\vspace{0.08cm}
+
+\textbf{Backend:} Node.js, Bun, Hono.js, Express.js, Prisma ORM, PostgreSQL, Redis, BullMQ, WebSockets, OpenAPI
+
+\vspace{0.08cm}
+
+\textbf{Integrations:} Firebase FCM, Google Maps API, Stripe, Moyasar (Apple Pay), Bunny Stream, Twilio, Better Auth
+
+\vspace{0.08cm}
+
+\textbf{DevOps \& Tools:} Git, GitHub, Docker, Coolify, Vercel
+
+% ================ EXPERIENCE ================
+\section{Experience}
+
+\textbf{Freelance Full-Stack Developer} \hfill \textit{2025 -- Present}
+
+\vspace{0.08cm}
+
+\textbf{School Platform} — Backend \& Web Developer (2-person team)
+\begin{highlights}
+    \item Architected \textbf{40+ database models} and \textbf{100+ REST API endpoints} powering 6 role-specific dashboards (Admin, Manager, Teacher, Student, Parent, Driver) for a school management platform.
+    \item Developed a \textbf{real-time GPS bus tracking system} using WebSockets and Google Maps, enabling live parent notifications, trip recording \& replay, and geo-fenced school radars.
+    \item Engineered a \textbf{gamified Mental Math engine} with 5 modes including inter-school competitions with deterministic PRNG for cheat-proof grading.
+    \item Designed 3 course payment flows (same-school free access, cross-school manager payments, independent teacher sales) with audit logging and trip archiving.
+    \item Deployed to production on a VPS via Coolify with containerized PostgreSQL, Redis, and BullMQ workers.
+    \item \textit{Stack: Hono.js, TanStack Start, Prisma, PostgreSQL, Redis, BullMQ, WebSockets, Google Maps, Firebase FCM, OpenAPI.}
+\end{highlights}
+
+\vspace{0.15cm}
+
+\textbf{Spider Platform} — Solo Developer \hfill \href{https://fy.sa}{fy.sa}
+\begin{highlights}
+    \item Designed and shipped a complete \textbf{LMS} end-to-end: course builder, Bunny video streaming, Apple Pay (Moyasar), gamified quizzes, and analytics dashboard.
+    \item Implemented 3 auth methods (Better Auth, Google OAuth, WhatsApp OTP via Twilio), serving active users in production.
+    \item \textit{Stack: Next.js 15, TypeScript, Prisma, PostgreSQL, Better Auth, Recharts.}
+\end{highlights}
+
+\vspace{0.15cm}
+
+\textbf{Brave Online} — Backend \& Web Developer (2-person team) \hfill \href{https://braveonline.online}{braveonline.online} \,|\, \href{https://github.com/ahmed-hamada-dev/show-cases/blob/main/braveonlin.online/brave-online-README.md}{GitHub}
+\begin{highlights}
+    \item Architected the full backend and admin/teacher dashboards for an education ERP supporting RBAC, 3 enrollment methods, real-time chat, and device-based security.
+    \item Designed a monorepo with shared Zod schema layer, enabling end-to-end type safety across Hono.js backend and TanStack Start frontend.
+    \item \textit{Stack: Hono.js, TanStack Start, Prisma, PostgreSQL, Redis, BullMQ, Firebase FCM, OpenAPI.}
+\end{highlights}
+
+\vspace{0.15cm}
+
+\textbf{Software Engineer Trainee}, ITI — Assiut, Egypt \hfill \textit{Oct 2025 -- Present}
+\begin{highlights}
+    \item Enrolled in a 9-month intensive program focused on modern web technologies, software architecture, and engineering practices.
+\end{highlights}
+
+
+% ================ EDUCATION ================
+\section{Education}
+
+\textbf{EELU} — B.Sc. in Computer Science \hfill \textit{Oct 2021 -- June 2025} \\
+Grade: Very Good with Honor
+
+% ================ LANGUAGES ================
+\section{Languages}
+
+\textbf{Arabic:} Native \hfill
+\textbf{English:} Professional Proficiency
+
+\end{document}

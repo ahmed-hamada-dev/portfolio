@@ -5,14 +5,14 @@ import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const BASE_URL = "https://ahmed-hamada.vercel.app";
+const BASE_URL = "https://ahmed-hamada.dev";
 
 export const metadata = {
   title: "Ahmed Hamada | مطور مواقع - Fullstack Developer Portfolio",
   description:
     "احمد حماده (Ahmed Hamada) - مطور مواقع (Web Developer) و مبرمج (Software Engineer) متخصص في بناء تطبيقات ويب حديثة باستخدام Next.js و AI. أفضل مطور في مصر لبناء المواقع الاحترافية. تعلم ازاي تعمل موقع ناجح.",
   keywords:
-    "Ahmed Hamada, احمد حماده, احمد حمادة, snow, snow6692, مطور مواقع, مبرمج, software developer, software engineer, fullstack developer, Next.js developer, TypeScript, مصر, افضل مطور في مصر, ازاي اعمل موقع, create website, web development, web developer, portfolio, بناء مواقع, برمجة تطبيقات",
+    "Ahmed Hamada, احمد حماده, احمد حمادة, مطور مواقع, مبرمج, software developer, software engineer, fullstack developer, Next.js developer, TypeScript, مصر, افضل مطور في مصر, ازاي اعمل موقع, create website, web development, web developer, portfolio, بناء مواقع, برمجة تطبيقات",
   authors: [{ name: "Ahmed Hamada", url: BASE_URL }],
   creator: "Ahmed Hamada",
   themeColor: "#000000",
@@ -20,7 +20,7 @@ export const metadata = {
   openGraph: {
     title: "Ahmed Hamada | مطور مواقع - Fullstack Developer Portfolio",
     description:
-      "Fullstack developer specializing in modern web applications and AI integrations. Building with Next.js, TypeScript, and cutting-edge technologies. Ahmed Hamada (snow6692).",
+      "Fullstack developer specializing in modern web applications and AI integrations. Building with Next.js, TypeScript, and cutting-edge technologies.",
     url: BASE_URL,
     siteName: "Ahmed Hamada | مطور مواقع",
     images: [
@@ -41,7 +41,7 @@ export const metadata = {
     title: "Ahmed Hamada | Fullstack Developer",
     description:
       "Fullstack developer specializing in modern web applications and AI integrations.",
-    creator: "@snow6692",
+    creator: "@ahmedhamadadev",
     images: [`${BASE_URL}/og-image.jpg`],
   },
 
@@ -94,20 +94,38 @@ export default function RootLayout({
         <meta name="revisit-after" content="7 days" />
 
         <meta property="og:title" content={metadata.openGraph.title} />
-        <meta property="og:description" content={metadata.openGraph.description} />
+        <meta
+          property="og:description"
+          content={metadata.openGraph.description}
+        />
         <meta property="og:url" content={metadata.openGraph.url} />
         <meta property="og:site_name" content={metadata.openGraph.siteName} />
         <meta property="og:type" content={metadata.openGraph.type} />
         <meta property="og:locale" content={metadata.openGraph.locale} />
-        <meta property="og:locale:alternate" content={metadata.openGraph.alternateLocale} />
+        <meta
+          property="og:locale:alternate"
+          content={metadata.openGraph.alternateLocale}
+        />
         <meta property="og:image" content={metadata.openGraph.images[0].url} />
-        <meta property="og:image:alt" content={metadata.openGraph.images[0].alt} />
-        <meta property="og:image:width" content={metadata.openGraph.images[0].width.toString()} />
-        <meta property="og:image:height" content={metadata.openGraph.images[0].height.toString()} />
+        <meta
+          property="og:image:alt"
+          content={metadata.openGraph.images[0].alt}
+        />
+        <meta
+          property="og:image:width"
+          content={metadata.openGraph.images[0].width.toString()}
+        />
+        <meta
+          property="og:image:height"
+          content={metadata.openGraph.images[0].height.toString()}
+        />
 
         <meta name="twitter:card" content={metadata.twitter.card} />
         <meta name="twitter:title" content={metadata.twitter.title} />
-        <meta name="twitter:description" content={metadata.twitter.description} />
+        <meta
+          name="twitter:description"
+          content={metadata.twitter.description}
+        />
         <meta name="twitter:creator" content={metadata.twitter.creator} />
         <meta name="twitter:image" content={metadata.twitter.images[0]} />
 
@@ -137,15 +155,16 @@ export default function RootLayout({
               serviceType: "Web Development",
               offers: {
                 "@type": "Offer",
-                description: "Website development, web applications, AI integrations",
+                description:
+                  "Website development, web applications, AI integrations",
               },
               sameAs: [
-                "https://github.com/snow6692",
-                "https://www.linkedin.com/in/ahmed-hamada-a83309239/",
+                "https://github.com/ahmed-hamada-dev",
+                "https://www.linkedin.com/in/ahmed-hamada-dev/",
               ],
               contactPoint: {
                 "@type": "ContactPoint",
-                email: "ahmedha258258@gmail.com",
+                email: "contact@ahmed-hamada.dev",
                 contactType: "Developer",
               },
             }),
@@ -189,7 +208,7 @@ export default function RootLayout({
               url: BASE_URL,
               image: `${BASE_URL}/og-image.jpg`,
               telephone: "+20-1XXXXXXXXX",
-              email: "ahmedha258258@gmail.com",
+              email: "contact@ahmed-hamada.dev",
               address: {
                 "@type": "PostalAddress",
                 addressCountry: "EG",
@@ -216,8 +235,8 @@ export default function RootLayout({
                 closes: "23:59",
               },
               sameAs: [
-                "https://github.com/snow6692",
-                "https://www.linkedin.com/in/ahmed-hamada-a83309239/",
+                "https://github.com/ahmed-hamada-dev",
+                "https://www.linkedin.com/in/ahmed-hamada-dev/",
               ],
             }),
           }}
@@ -229,23 +248,26 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "FAQPage",
-              "mainEntity": [{
-                "@type": "Question",
-                "name": "ازاي اعمل موقع الكتروني محترف؟",
-                "name_en": "How to create a professional website?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "يمكنك بناء موقع محترف باستخدام تقنيات حديثة مثل Next.js و React. احمد حماده متخصص في تحويل فكرتك إلى واقع باستخدام أحدث الأدوات التقنية والذكاء الاصطناعي."
-                }
-              }, {
-                "@type": "Question",
-                "name": "من هو أفضل مطور مواقع في مصر؟",
-                "name_en": "Who is the best web developer in Egypt?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "احمد حماده (snow6692) يعتبر من المطورين الرائدين في مصر المتخصصين في تطبيقات الويب الحديثة والذكاء الاصطناعي."
-                }
-              }]
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "ازاي اعمل موقع الكتروني محترف؟",
+                  name_en: "How to create a professional website?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "يمكنك بناء موقع محترف باستخدام تقنيات حديثة مثل Next.js و React. احمد حماده متخصص في تحويل فكرتك إلى واقع باستخدام أحدث الأدوات التقنية والذكاء الاصطناعي.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "من هو أفضل مطور مواقع في مصر؟",
+                  name_en: "Who is the best web developer in Egypt?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "احمد حماده يعتبر من المطورين الرائدين في مصر المتخصصين في تطبيقات الويب الحديثة والذكاء الاصطناعي.",
+                  },
+                },
+              ],
             }),
           }}
         />

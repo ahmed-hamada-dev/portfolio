@@ -304,7 +304,7 @@ const Hero: React.FC = () => {
         >
           <p className="section-label mb-3">[ THE FULL PICTURE ]</p>
           <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white/90 text-center mb-6">
-            Every Layer. Ahmed Hamada.
+            Every Layer of the Web
           </h2>
           <Link href="#contact" className="group block">
             <div className="flex items-center gap-4 bg-white rounded-full pl-6 pr-2 py-2 hover:bg-gray-100 transition-all font-sans shadow-xl">

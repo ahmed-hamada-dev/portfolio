@@ -78,20 +78,20 @@ const Contact: React.FC = () => {
                 {
                   icon: <MailIcon className="w-6 h-6" />,
                   label: "Email",
-                  value: "ahmedha258258@gmail.com",
-                  href: "mailto:ahmedha258258@gmail.com",
+                  value: "contact@ahmed-hamada.dev",
+                  href: "mailto:contact@ahmed-hamada.dev",
                 },
                 {
                   icon: <LinkedinIcon className="w-6 h-6" />,
                   label: "LinkedIn",
                   value: "Ahmed Hamada",
-                  href: "https://www.linkedin.com/in/ahmed-hamada-a83309239/",
+                  href: "https://www.linkedin.com/in/ahmed-hamada-dev/",
                 },
                 {
                   icon: <GithubIcon className="w-6 h-6" />,
                   label: "GitHub",
                   value: "Ahmed Hamada",
-                  href: "https://github.com/snow6692",
+                  href: "https://github.com/ahmed-hamada-dev",
                 },
               ].map((item, index) => (
                 <motion.div
