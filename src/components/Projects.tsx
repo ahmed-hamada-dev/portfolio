@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ExternalLinkIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { GithubIcon } from "lucide-react";
+import Galaxy from "./Galaxy";
 
 const projects = [
   {
@@ -182,10 +183,31 @@ const Projects = () => {
   }, []);
 
   useAnimationFrame((_, delta) => {
-    if (!activeProject) {
-      time.set(time.get() + delta * 0.0005);
-    }
+    // Keep planets orbiting consistently even when the dialog is open
+    time.set(time.get() + delta * 0.0005);
   });
+
+  const handleOpenProject = (project: any) => {
+    setActiveProject(project);
+  };
+
+  const handleCloseProject = () => {
+    setActiveProject(null);
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const currentIndex = projects.findIndex((p) => p.id === activeProject?.id);
+    const nextIndex = (currentIndex + 1) % projects.length;
+    setActiveProject(projects[nextIndex]);
+  };
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const currentIndex = projects.findIndex((p) => p.id === activeProject?.id);
+    const prevIndex = (currentIndex - 1 + projects.length) % projects.length;
+    setActiveProject(projects[prevIndex]);
+  };
 
   return (
     <section
@@ -193,7 +215,23 @@ const Projects = () => {
       className="relative w-full bg-background min-h-[1000px] flex items-center justify-center overflow-hidden py-32"
     >
       {/* Background Starfield/Atmosphere */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <Galaxy 
+          mouseRepulsion
+          mouseInteraction
+          density={1}
+          glowIntensity={0.3}
+          saturation={0}
+          hueShift={140}
+          twinkleIntensity={0.3}
+          rotationSpeed={0.1}
+          repulsionStrength={2}
+          autoCenterRepulsion={0}
+          starSpeed={0.5}
+          speed={1}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.4)_0%,#000000_100%)] pointer-events-none" />
+      </div>
 
       <div className="relative w-full max-w-7xl mx-auto h-[600px] flex items-center justify-center">
         {/* The "Sun" Center */}
@@ -217,31 +255,102 @@ const Projects = () => {
             time={time}
             activeProject={activeProject}
             isActive={activeProject?.id === project.id}
-            setActiveProject={setActiveProject}
+            setActiveProject={handleOpenProject}
             isMobile={isMobile}
           />
         ))}
       </div>
 
       {/* Expanded Project Modal using AnimatePresence */}
+      {/* 1. Modal Overlay Background */}
       <AnimatePresence>
         {activeProject && (
           <motion.div
+            key="modal-bg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-            onClick={() => setActiveProject(null)}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 z-[998] bg-black/50 backdrop-blur-sm"
+            onClick={handleCloseProject}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* 2. Navigation Controls */}
+      <AnimatePresence>
+        {activeProject && (
+          <motion.div
+            key="modal-nav"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[1000] pointer-events-none flex items-center justify-between px-2 md:px-8 lg:px-12"
           >
+            {/* Previous Orbit Button */}
+            <div className="pointer-events-auto hidden sm:flex">
+               <button onClick={handlePrev} className="group flex flex-col items-center gap-3">
+                  <div className="relative w-14 h-14 rounded-full border border-white/10 flex items-center justify-center bg-black/40 backdrop-blur-md group-hover:border-snow-accent/30 transition-all group-hover:scale-110 shadow-[0_0_30px_rgba(255,255,255,0.02)]">
+                     <div className="absolute inset-1.5 rounded-full border border-dashed border-white/20 group-hover:animate-[spin_4s_linear_infinite]" />
+                     <div className="w-3 h-3 rounded-full bg-white/10 shadow-[inset_0_0_5px_rgba(0,0,0,0.5)] group-hover:bg-snow-accent/20 transition-colors" />
+                     <div className="absolute top-1/2 -translate-y-1/2 -left-1.5 w-3 h-3 rounded-full bg-snow-accent shadow-[0_0_12px_rgba(255,255,255,0.8)] group-hover:-translate-x-1 transition-transform" />
+                  </div>
+                  <span className="text-[10px] tracking-[0.3em] uppercase font-bold text-white/50 group-hover:text-white transition-opacity">Prev</span>
+               </button>
+            </div>
+
+            {/* Next Orbit Button */}
+            <div className="pointer-events-auto hidden sm:flex">
+               <button onClick={handleNext} className="group flex flex-col items-center gap-3">
+                  <div className="relative w-14 h-14 rounded-full border border-white/10 flex items-center justify-center bg-black/40 backdrop-blur-md group-hover:border-snow-accent/30 transition-all group-hover:scale-110 shadow-[0_0_30px_rgba(255,255,255,0.02)]">
+                     <div className="absolute inset-1.5 rounded-full border border-dashed border-white/20 group-hover:animate-[spin_4s_linear_infinite_reverse]" />
+                     <div className="w-3 h-3 rounded-full bg-white/10 shadow-[inset_0_0_5px_rgba(0,0,0,0.5)] group-hover:bg-snow-accent/20 transition-colors" />
+                     <div className="absolute top-1/2 -translate-y-1/2 -right-1.5 w-3 h-3 rounded-full bg-snow-accent shadow-[0_0_12px_rgba(255,255,255,0.8)] group-hover:translate-x-1 transition-transform" />
+                  </div>
+                  <span className="text-[10px] tracking-[0.3em] uppercase font-bold text-white/50 group-hover:text-white transition-opacity">Next</span>
+               </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 3. Modal Card Morph */}
+      <div className="fixed inset-0 z-[999] pointer-events-none flex items-center justify-center p-4">
+        <AnimatePresence>
+        {activeProject && (
+          <motion.div
+            key={activeProject.id}
+            layoutId={`planet-${activeProject.id}`}
+            transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+            className="absolute m-auto bg-[#050505] border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(255,255,255,0.05)] pointer-events-auto w-[calc(100%-2rem)] max-w-3xl h-[80vh] md:h-[700px]"
+            onClick={(e) => e.stopPropagation()}
+            style={{ 
+               // The morph will animate borderRadius properly providing we explicitly set it.
+               borderRadius: "2rem" 
+            }}
+          >
+            {/* Inner Content fade animation - ensures text/images don't jump during morph */}
             <motion.div
-              layoutId={`planet-${activeProject.id}`}
-              className="w-full max-w-3xl h-[80vh] md:h-[700px] bg-[#050505] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col shadow-[0_0_100px_rgba(255,255,255,0.05)] relative pointer-events-auto"
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, filter: "blur(10px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, filter: "blur(10px)", transition: { duration: 0.3 } }}
+              transition={{ delay: 0.2, duration: 0.4 }}
+              className="w-full h-full flex flex-col relative"
             >
+              {/* Mobile controls */}
+              <div className="absolute top-4 left-4 z-[1000] flex gap-3 sm:hidden p-1.5 rounded-full backdrop-blur-md">
+                 <button onClick={handlePrev} className="relative w-10 h-10 rounded-full border border-white/10 bg-black/60 flex items-center justify-center group hover:bg-white/10 transition-colors">
+                    <div className="absolute top-1/2 -translate-y-1/2 right-4 w-2 h-2 rounded-full z-10 bg-white/20 shadow-[inset_0_0_2px_rgba(0,0,0,0.5)] group-hover:bg-white/40 transition-colors" />
+                    <div className="absolute top-1/2 -translate-y-1/2 left-2.5 w-2.5 h-2.5 rounded-full bg-snow-accent shadow-[0_0_8px_rgba(255,255,255,0.8)] group-hover:-translate-x-0.5 transition-transform" />
+                 </button>
+                 <button onClick={handleNext} className="relative w-10 h-10 rounded-full border border-white/10 bg-black/60 flex items-center justify-center group hover:bg-white/10 transition-colors">
+                    <div className="absolute top-1/2 -translate-y-1/2 left-4 w-2 h-2 rounded-full z-10 bg-white/20 shadow-[inset_0_0_2px_rgba(0,0,0,0.5)] group-hover:bg-white/40 transition-colors" />
+                    <div className="absolute top-1/2 -translate-y-1/2 right-2.5 w-2.5 h-2.5 rounded-full bg-snow-accent shadow-[0_0_8px_rgba(255,255,255,0.8)] group-hover:translate-x-0.5 transition-transform" />
+                 </button>
+              </div>
               <button
-                onClick={() => setActiveProject(null)}
-                className="absolute top-4 right-4 z-50 bg-black/50 p-2 rounded-full text-white/50 hover:text-white hover:bg-black transition-colors"
+                onClick={handleCloseProject}
+                className="absolute top-4 right-4 z-50 bg-black/50 p-2 border border-white/10 rounded-full text-white/50 hover:text-white hover:bg-black transition-colors"
               >
                 <Cross2Icon className="w-5 h-5" />
               </button>
@@ -254,9 +363,9 @@ const Projects = () => {
                   fill
                   className="object-cover object-top"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-100" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent" />
                 {activeProject.featured && (
-                  <span className="absolute top-6 left-6 bg-snow-accent text-background text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full shadow-lg">
+                  <span className="absolute top-6 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-6 bg-snow-accent text-background text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full shadow-lg">
                     Featured
                   </span>
                 )}
@@ -266,12 +375,7 @@ const Projects = () => {
               </div>
 
               {/* Body */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.4 }}
-                className="p-6 md:p-8 flex flex-col flex-1 hide-scrollbar overflow-y-auto"
-              >
+              <div className="p-6 md:p-8 flex flex-col flex-1 hide-scrollbar overflow-y-auto">
                 <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-8">
                   {activeProject.description}
                 </p>
@@ -328,11 +432,12 @@ const Projects = () => {
                     )}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </section>
   );
 };

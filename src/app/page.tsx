@@ -9,6 +9,7 @@ import TechSlider from "@/components/TechSlider";
 import { HorizontalScrollSection } from "@/components/HorizontalScrollSection";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef } from "react";
+// ScrollStack removed — its Lenis instance conflicts with GSAP ScrollTrigger in Hero
 
 const Page = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -123,20 +124,10 @@ const Page = () => {
         <Navbar />
         <main>
           <Hero />
-          <ScrollStack>
-            <ScrollStackItem itemClassName="bg-background rounded-[3xl] shadow-[0_20px_40px_rgba(0,0,0,0.8)] z-[4] border border-white/5">
-              <TechSlider />
-            </ScrollStackItem>
-            <ScrollStackItem itemClassName="bg-background rounded-[3xl] shadow-[0_20px_40px_rgba(0,0,0,0.8)] z-[3] border border-white/5">
-              <About />
-            </ScrollStackItem>
-            <ScrollStackItem itemClassName="bg-background rounded-[3xl] shadow-[0_20px_40px_rgba(0,0,0,0.8)] z-[2] border border-white/5">
-              <Projects />
-            </ScrollStackItem>
-            <ScrollStackItem itemClassName="bg-background rounded-t-[3xl] shadow-[0_20px_40px_rgba(0,0,0,0.8)] z-[1] border border-white/5 border-b-0">
-              <Contact />
-            </ScrollStackItem>
-          </ScrollStack>
+          <TechSlider />
+          <About />
+          <Projects />
+          <Contact />
         </main>
         <Footer />
       </motion.div>
