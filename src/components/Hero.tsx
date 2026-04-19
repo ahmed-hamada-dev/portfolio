@@ -8,9 +8,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 // ─── Constants ─────────────────────────────────────────────────────
-const FRAME_COUNT = 120;
+const FRAME_COUNT = 60;
 const FRAME_PATH = (index: number) =>
-  `/frames/ezgif-frame-${String(index * 2).padStart(3, "0")}.jpg`;
+  `/frames/ezgif-frame-${String(index * 4).padStart(3, "0")}.jpg`;
 
 // ─── Main Hero Component ───────────────────────────────────────────
 const Hero: React.FC = () => {
