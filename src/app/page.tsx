@@ -123,6 +123,8 @@ const Page = () => {
         <Navbar />
         <main>
           <Hero />
+          <ScrollStack>
+            <ScrollStackItem itemClassName="bg-background rounded-[3xl] shadow-[0_20px_40px_rgba(0,0,0,0.8)] z-[4] border border-white/5">
               <TechSlider />
             </ScrollStackItem>
             <ScrollStackItem itemClassName="bg-background rounded-[3xl] shadow-[0_20px_40px_rgba(0,0,0,0.8)] z-[3] border border-white/5">
