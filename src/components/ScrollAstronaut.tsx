@@ -68,52 +68,60 @@ const ScrollAstronaut = () => {
   if (isMobile) return null;
 
   // ── Position transforms ──
+  // More keyframes = smoother gliding between sections (no sudden jumps)
   const x = useTransform(
     smoothProgress,
-    [0, 0.15, 0.3, 0.35, 0.45, 0.6, 0.65, 0.75, 0.85, 0.95, 1],
+    //  Hero   Tech   Tech   Trans  Proj   Proj   Re-ent Re-ent About  About  Cont   Cont   Footer Footer
+    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6,  0.65, 0.7,  0.78, 0.82,  0.88,  0.93,  1],
     [
-      "calc(85vw - 60px)", // Hero: bottom-right
-      "calc(5vw)", // TechSlider: left side
-      "calc(5vw)", // TechSlider end
-      "calc(45vw)", // Transition: center
-      "calc(80vw - 100px)", // Projects: right side
-      "calc(80vw - 100px)", // Projects end
-      "calc(45vw)", // Re-entry: center
-      "calc(8vw)", // About: left side
-      "calc(75vw)", // Contact: right side
-      "calc(50vw - 60px)", // Footer: centered above name
-      "calc(50vw - 100px)", // Footer end
+      "calc(85vw - 60px)",  // Hero: bottom-right
+      "calc(8vw)",           // TechSlider: left side
+      "calc(8vw)",           // TechSlider hold
+      "calc(40vw)",          // Transition: gliding center
+      "calc(75vw - 100px)",  // Projects: right side
+      "calc(75vw - 100px)",  // Projects hold
+      "calc(55vw)",          // Re-entry: drifting center
+      "calc(35vw)",          // Re-entry: moving left
+      "calc(10vw)",          // About: settling left
+      "calc(10vw)",          // About: hold
+      "calc(35vw)",          // Gliding toward contact
+      "calc(70vw)",          // Contact: right side
+      "calc(50vw - 60px)",   // Footer: centering
+      "calc(50vw - 100px)",  // Footer: above name
     ],
   );
 
   const y = useTransform(
     smoothProgress,
-    [0, 0.15, 0.3, 0.35, 0.45, 0.6, 0.65, 0.75, 0.85, 0.95, 1],
+    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6,  0.65, 0.7,  0.78, 0.82,  0.88,  0.93,  1],
     [
-      "calc(75vh)", // Hero: near bottom
-      "calc(30vh)", // TechSlider: mid-left
-      "calc(30vh)", // TechSlider end
-      "calc(40vh)", // Transition: diving center
-      "calc(25vh)", // Projects: floating high
-      "calc(25vh)", // Projects end
-      "calc(50vh)", // Re-entry: descending
-      "calc(65vh)", // About: grounded
-      "calc(40vh)", // Contact: mid-right
-      "calc(20vh)", // Footer: above the name
-      "calc(35vh)", // Footer end
+      "calc(75vh)",          // Hero: near bottom
+      "calc(30vh)",          // TechSlider: mid
+      "calc(30vh)",          // TechSlider hold
+      "calc(40vh)",          // Transition: diving
+      "calc(25vh)",          // Projects: floating high
+      "calc(25vh)",          // Projects hold
+      "calc(35vh)",          // Re-entry: descending
+      "calc(50vh)",          // Re-entry: lower
+      "calc(60vh)",          // About: grounded
+      "calc(60vh)",          // About: hold
+      "calc(50vh)",          // Gliding up
+      "calc(40vh)",          // Contact: mid
+      "calc(25vh)",          // Footer: rising
+      "calc(35vh)",          // Footer: above name
     ],
   );
 
   const rotate = useTransform(
     smoothProgress,
-    [0, 0.15, 0.3, 0.35, 0.45, 0.6, 0.65, 0.75, 0.85, 1],
-    [0, -10, -5, 15, -8, -5, 20, 0, -10, 0],
+    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6, 0.65, 0.7, 0.78, 0.82, 0.88, 0.93, 1],
+    [0, -8, -5, 12, -6, -4, 10, 15, 0, 0, -5, -8, 0, 0],
   );
 
   const scale = useTransform(
     smoothProgress,
-    [0, 0.1, 0.15, 0.3, 0.35, 0.45, 0.6, 0.65, 0.75, 0.85, 1],
-    [0.6, 0.8, 1, 1, 0.7, 1, 1, 0.8, 1, 1.1, 1],
+    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6, 0.65, 0.7, 0.78, 0.82, 0.88, 0.93, 1],
+    [0.6, 0.9, 0.9, 0.7, 1, 1, 0.8, 0.8, 1, 1, 0.9, 1, 1.1, 1],
   );
 
   const opacity = useTransform(
