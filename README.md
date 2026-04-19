@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  
+# Hi, I'm Ahmed Hamada 👋
 
-## Getting Started
+### Fullstack Developer · Software Engineer · Egypt 🇪🇬
 
-First, run the development server:
+I build modern, high-performance web applications with a focus on clean architecture, real-time systems, and AI integrations.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[![Portfolio](https://img.shields.io/badge/ahmed--hamada.dev-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://ahmed-hamada.dev)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ahmed-hamada-dev/)
+[![Email](https://img.shields.io/badge/contact@ahmed--hamada.dev-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:contact@ahmed-hamada.dev)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+</div>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🧑‍💻 About Me
 
-## Learn More
+- 🎓 B.Sc. in Computer Science — Egyptian E-Learning University (EELU)
+- 🏫 Currently training at the Information Technology Institute (ITI)
+- 💼 Open to fullstack development roles, freelance projects, and collaborations
+- 🌍 Based in Egypt, available worldwide
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Languages & Frameworks**
 
-## Deploy on Vercel
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white)
+![Hono](https://img.shields.io/badge/Hono-E36002?style=flat-square&logo=hono&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
+![TanStack](https://img.shields.io/badge/TanStack-FF4154?style=flat-square&logo=react-query&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Backend & Data**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
+![BullMQ](https://img.shields.io/badge/BullMQ-E84D3D?style=flat-square&logoColor=white)
+
+**Tools & Platforms**
+
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
+
+---
+
+### 🚀 Featured Projects
+
+| Project | Description | Stack |
+|---------|-------------|-------|
+| [**Spider Platform**](https://fy.sa) | SaaS solution with real-time GPS tracking, trip replay, and driver management | Hono · TanStack · PostgreSQL · Redis |
+| [**Pet Community**](https://github.com/ahmed-hamada-dev/pet-store) | E-commerce & community platform with real-time chat and Stripe payments | Next.js · PostgreSQL · Stripe · WebSockets |
+| [**AI Workout Generator**](https://github.com/ahmed-hamada-dev/ai-workout-generator) | AI-powered fitness planner using natural language input | Next.js · Vapi · Gemini API · Convex |
+| [**Discovery SaaS**](https://github.com/ahmed-hamada-dev/v1-hunt-clone) | Product Hunt-style platform for creators to showcase and rank products | Next.js · PostgreSQL · Stripe |
+
+---
+
+### 📊 GitHub Stats
+
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=ahmed-hamada-dev&show_icons=true&theme=tokyonight&hide_border=true&count_private=true" height="165" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=ahmed-hamada-dev&layout=compact&theme=tokyonight&hide_border=true" height="165" />
+</div>
+
+---
+
+<div align="center">
+  <img src="https://komarev.com/ghpvc/?username=ahmed-hamada-dev&style=flat-square&color=000000" alt="Profile Views" />
+  
+  **Let's build something great together.**
+</div>
