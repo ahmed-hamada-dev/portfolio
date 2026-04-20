@@ -170,12 +170,12 @@ const Planet = ({
         }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="relative flex items-center justify-center w-24 h-24 md:w-32 md:h-32"
-        style={{ transformStyle: "preserve-3d" }}
+        style={{ willChange: "transform" }}
       >
         {/* Soft, realistic spherical halo instead of the buggy offset ellipse */}
         <motion.div
-            style={{ transform: "translateZ(-1px)" }} 
-            className="absolute inset-[-25%] rounded-[9999px] z-0 pointer-events-none mix-blend-screen opacity-50"
+            style={{ zIndex: -1 }} 
+            className="absolute inset-[-25%] rounded-[9999px] z-0 pointer-events-none opacity-50"
         >
             <div className="absolute inset-0 rounded-[9999px]" style={{ background: `radial-gradient(circle at 50% 50%, ${themeColor}50 0%, ${themeColor}00 65%)` }} />
         </motion.div>
@@ -183,13 +183,12 @@ const Planet = ({
         {/* Cinematic 3D Angled Orbital Ring with Glowing Moon */}
         <motion.div
            className="absolute inset-[-80%] md:inset-[-100%] pointer-events-none z-10 flex items-center justify-center transform-gpu"
-           style={{ transform: "rotateX(75deg) rotateY(-15deg)", transformStyle: "preserve-3d" }} // This forces the ring to cut through the 3D space
+           style={{ transform: "rotateX(75deg) rotateY(-15deg)", willChange: "transform" }}
         >
            <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 12 + index * 3, repeat: Infinity, ease: "linear" }}
               className="absolute inset-0 flex items-center justify-center transform-gpu"
-              style={{ transformStyle: "preserve-3d" }}
            >
               {/* Rotating SVG Glow Trail */}
               <svg className="w-full h-full absolute inset-0 overflow-visible" viewBox="0 0 100 100">
@@ -238,7 +237,7 @@ const Planet = ({
            onClick={() => setActiveProject(project)}
            whileHover={{ scale: 1.1 }}
            className="pointer-events-auto relative w-full h-full overflow-hidden border border-white/20 shadow-[0_0_50px_rgba(0,0,0,0.9)] cursor-pointer group bg-black z-20"
-           style={{ transform: "translateZ(1px)", borderRadius: "50%" }} // Explicit 50% border radius fixes closing animation glitch
+           style={{ zIndex: 1, borderRadius: "50%", willChange: "transform" }} // Explicit 50% border radius fixes closing animation glitch
         >
           {/* Animated Surface (Scrolling Texture to Simulate Rotation) */}
           <motion.div 
@@ -256,13 +255,13 @@ const Planet = ({
           </motion.div>
           
           {/* Deep 3D Shading & Specular Map Layer */}
-          <div className="absolute inset-0 rounded-[9999px] shadow-[inset_-12px_-12px_24px_rgba(0,0,0,0.95),inset_4px_4px_12px_rgba(255,255,255,0.4)] pointer-events-none mix-blend-overlay" />
+          <div className="absolute inset-0 rounded-[9999px] shadow-[inset_-12px_-12px_24px_rgba(0,0,0,0.95),inset_4px_4px_12px_rgba(255,255,255,0.4)] pointer-events-none" />
           <div className="absolute inset-0 rounded-[9999px] shadow-[inset_0_0_40px_rgba(0,0,0,0.8)] pointer-events-none" />
 
           {/* Terminator Line (Day/Night Mapping) */}
            <motion.div
              style={{ rotate: angleDegrees }}
-             className="absolute inset-[0] rounded-[9999px] pointer-events-none mix-blend-multiply"
+             className="absolute inset-[0] rounded-[9999px] pointer-events-none"
           >
              <div className="absolute inset-0 rounded-[9999px] bg-[radial-gradient(ellipse_at_100%_50%,rgba(0,0,0,1)_15%,rgba(0,0,0,0.8)_40%,rgba(0,0,0,0)_75%)]" />
           </motion.div>
@@ -277,6 +276,7 @@ const Planet = ({
 const Projects = () => {
   const [activeProject, setActiveProject] = useState<any | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   
   const time = useMotionValue(0);
@@ -296,6 +296,7 @@ const Projects = () => {
   const isHovered = useSpring(0, { stiffness: 60, damping: 15 });
 
   useEffect(() => {
+    setMounted(true);
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -357,7 +358,7 @@ const Projects = () => {
       <div className="absolute bottom-0 left-0 w-full h-[30vh] bg-gradient-to-t from-background via-background/80 to-transparent z-10 pointer-events-none" />
 
       {/* Dynamic Galaxy Background zooming during active state */}
-      <motion.div style={{ y: galaxyY, opacity: galaxyOpacityScroll }} className="absolute inset-0 pointer-events-auto z-0">
+      <motion.div style={{ y: galaxyY, opacity: galaxyOpacityScroll }} className={`absolute inset-0 z-0 ${isMobile ? 'pointer-events-none' : 'pointer-events-auto'}`}>
         <motion.div 
           className="absolute inset-0 origin-center"
           animate={{ 
@@ -367,15 +368,15 @@ const Projects = () => {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
         <Galaxy 
-          mouseRepulsion
-          mouseInteraction
+          mouseRepulsion={!isMobile}
+          mouseInteraction={!isMobile}
           density={1}
           glowIntensity={0.3}
           saturation={0}
           hueShift={140}
           twinkleIntensity={0.3}
           rotationSpeed={0.1}
-          repulsionStrength={5} // Enhanced gravitational distortion for black hole effect
+          repulsionStrength={!isMobile ? 5 : 0}
           autoCenterRepulsion={0}
           starSpeed={0.5}
           speed={1}
@@ -407,7 +408,7 @@ const Projects = () => {
         </motion.div>
 
         {/* Render Orbiting Planets */}
-        {projects.map((project, i) => (
+        {mounted && projects.map((project, i) => (
           <Planet
             key={project.id}
             project={project}
@@ -442,9 +443,9 @@ const Projects = () => {
                   src={activeProject.imageSrc} 
                   alt="" 
                   fill 
-                  className="object-cover opacity-20 scale-125 blur-[60px] md:blur-[100px] pointer-events-none mix-blend-screen" 
+                  className="object-cover opacity-20 scale-125 blur-[60px] md:blur-[100px] pointer-events-none" 
               />
-              <div className="absolute inset-0 shadow-[inset_0_0_200px_rgba(0,0,0,1)] mix-blend-multiply" style={{ borderRadius: "50%" }} />
+              <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,1)] bg-black/40 pointer-events-none" style={{ borderRadius: "50%" }} />
             </motion.div>
 
             <motion.div

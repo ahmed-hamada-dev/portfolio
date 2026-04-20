@@ -279,7 +279,21 @@ export default function Galaxy({
 
       renderer.render({ scene: mesh });
     }
-    animateId = requestAnimationFrame(update);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!animateId) animateId = requestAnimationFrame(update);
+        } else {
+          if (animateId) {
+            cancelAnimationFrame(animateId);
+            animateId = null;
+          }
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(ctn);
     ctn.appendChild(gl.canvas);
 
     function handleMouseMove(e) {
@@ -294,15 +308,18 @@ export default function Galaxy({
       targetMouseActive.current = 0.0;
     }
 
-    if (mouseInteraction) {
+    // Only add mouse interaction on devices that support hover (not mobile/tablet)
+    const hasHover = window.matchMedia('(hover: hover)').matches;
+    if (mouseInteraction && hasHover) {
       ctn.addEventListener('mousemove', handleMouseMove);
       ctn.addEventListener('mouseleave', handleMouseLeave);
     }
 
     return () => {
-      cancelAnimationFrame(animateId);
+      observer.disconnect();
+      if (animateId) cancelAnimationFrame(animateId);
       window.removeEventListener('resize', resize);
-      if (mouseInteraction) {
+      if (mouseInteraction && hasHover) {
         ctn.removeEventListener('mousemove', handleMouseMove);
         ctn.removeEventListener('mouseleave', handleMouseLeave);
       }
@@ -328,5 +345,5 @@ export default function Galaxy({
     transparent
   ]);
 
-  return <div ref={ctnDom} className="w-full h-full relative" {...rest} />;
+  return <div ref={ctnDom} className="w-full h-full relative touch-none [@media(hover:none)]:pointer-events-none" {...rest} />;
 }

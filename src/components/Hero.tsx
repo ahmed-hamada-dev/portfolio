@@ -40,6 +40,27 @@ const Hero: React.FC = () => {
       video.addEventListener("loadeddata", onReady, { once: true });
     }
 
+    // Setup decoupled video seeking to prevent scroll blocking
+    const targetTimeRef = { current: 0 };
+    const isSeekingRef = { current: false };
+
+    let rafId: number;
+    const renderFrame = () => {
+      if (video && video.duration && !isSeekingRef.current) {
+        if (Math.abs(video.currentTime - targetTimeRef.current) > 0.05) {
+          isSeekingRef.current = true;
+          video.currentTime = targetTimeRef.current;
+        }
+      }
+      rafId = requestAnimationFrame(renderFrame);
+    };
+    rafId = requestAnimationFrame(renderFrame);
+
+    const handleSeeked = () => {
+      isSeekingRef.current = false;
+    };
+    video.addEventListener("seeked", handleSeeked);
+
     // ── GSAP ScrollTrigger — scrub video.currentTime ──
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -53,7 +74,7 @@ const Hero: React.FC = () => {
         },
       });
 
-      // Scrub through the video by setting currentTime
+      // Scrub through the video by updating the targetTime reference
       const proxy = { time: 0 };
       tl.to(
         proxy,
@@ -63,7 +84,7 @@ const Hero: React.FC = () => {
           duration: 1,
           onUpdate: () => {
             if (video && video.duration) {
-              video.currentTime = proxy.time * video.duration;
+              targetTimeRef.current = proxy.time * video.duration;
             }
           },
         },
@@ -123,6 +144,8 @@ const Hero: React.FC = () => {
 
     return () => {
       ctx.revert();
+      cancelAnimationFrame(rafId);
+      video.removeEventListener("seeked", handleSeeked);
     };
   }, []);
 
@@ -147,7 +170,7 @@ const Hero: React.FC = () => {
         muted
         playsInline
         preload="auto"
-        className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+        className="absolute inset-0 -top-24 md:top-0 w-full h-full object-contain pointer-events-none"
         style={{
           backgroundColor: "#000",
         }}

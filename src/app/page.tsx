@@ -9,7 +9,7 @@ import TechSlider from "@/components/TechSlider";
 import ScrollAstronaut from "@/components/ScrollAstronaut";
 import { HorizontalScrollSection } from "@/components/HorizontalScrollSection";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 // ScrollStack removed — its Lenis instance conflicts with GSAP ScrollTrigger in Hero
 
 /** Cinematic re-entry corridor between Projects (space) and About (ground) */
@@ -36,11 +36,23 @@ const SpaceTransition = () => {
         style={{ opacity: linesOpacity, scaleY: linesScaleY }}
       >
         {Array.from({ length: 30 }).map((_, i) => {
-          const left = `${5 + Math.random() * 90}%`;
-          const height = `${20 + Math.random() * 60}%`;
-          const width = `${1 + Math.random() * 2}px`;
-          const opacity = 0.1 + Math.random() * 0.3;
-          const delay = Math.random() * 2;
+          // Deterministic pseudo-random values based on index
+          // Round to 2 decimal places to prevent server/client hydration mismatch
+          const r = (v: number) => Math.round(v * 100) / 100;
+          const random1 = Math.abs(Math.sin(i * 12.9898)) * 1000 % 1;
+          const random2 = Math.abs(Math.sin(i * 78.233)) * 1000 % 1;
+          const random3 = Math.abs(Math.sin(i * 45.123)) * 1000 % 1;
+          const random4 = Math.abs(Math.sin(i * 93.456)) * 1000 % 1;
+          const random5 = Math.abs(Math.sin(i * 23.345)) * 1000 % 1;
+          const random6 = Math.abs(Math.sin(i * 67.89)) * 1000 % 1;
+
+          const left = `${r(5 + random1 * 90)}%`;
+          const height = `${r(20 + random2 * 60)}%`;
+          const width = `${r(1 + random3 * 2)}px`;
+          const opacity = r(0.1 + random4 * 0.3);
+          const delay = r(random5 * 2);
+          const duration = r(1.5 + random6);
+
           return (
             <motion.div
               key={i}
@@ -53,7 +65,7 @@ const SpaceTransition = () => {
                 top: "10%",
               }}
               animate={{ y: ["-20%", "120%"] }}
-              transition={{ duration: 1.5 + Math.random(), repeat: Infinity, delay, ease: "linear" }}
+              transition={{ duration, repeat: Infinity, delay, ease: "linear" }}
             />
           );
         })}
@@ -71,98 +83,7 @@ const SpaceTransition = () => {
 };
 
 const Page = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const animationFrameIdRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    // Set canvas size based on container width and full document height
-    const resizeCanvas = () => {
-      const containerRect = container.getBoundingClientRect();
-      canvas.width = containerRect.width;
-      // Set height to the full scrollable document height
-      canvas.height = document.documentElement.scrollHeight;
-      canvas.style.left = `${containerRect.left}px`;
-    };
-    resizeCanvas();
-
-    // Initialize snowflakes within container width and full document height
-    const snowflakes = Array.from({ length: 200 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * document.documentElement.scrollHeight,
-      radius: Math.random() * 3 + 1,
-      vy: Math.random() * 2 + 0.5,
-      vx: (Math.random() - 0.5) * 0.5,
-      opacity: Math.random() * 0.5 + 0.3,
-    }));
-
-    // Animation loop
-    const animate = () => {
-      if (!canvasRef.current || !canvasRef.current.getContext("2d")) {
-        canvasRef.current!.width = container.getBoundingClientRect().width;
-        canvasRef.current!.height = document.documentElement.scrollHeight;
-        return;
-      }
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Adjust snowflake positions based on scroll offset
-      const scrollOffset = window.scrollY;
-
-      snowflakes.forEach((flake) => {
-        flake.y += flake.vy;
-        flake.x += flake.vx;
-
-        // Reset snowflake to top when it falls below the full document height
-        if (flake.y > document.documentElement.scrollHeight) {
-          flake.y = 0;
-          flake.x = Math.random() * canvas.width;
-          flake.vx = (Math.random() - 0.5) * 0.5;
-        }
-
-        // Keep snowflakes within container bounds horizontally
-        if (flake.x < 0 || flake.x > canvas.width) {
-          flake.x = Math.random() * canvas.width;
-          flake.y = 0;
-        }
-
-        // Draw snowflake with scroll offset
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(255, 255, 255, ${flake.opacity})`;
-        ctx.arc(flake.x, flake.y - scrollOffset, flake.radius, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      animationFrameIdRef.current = requestAnimationFrame(animate);
-    };
-
-    // Start animation
-    animate();
-
-    // Handle window resize and scroll
-    window.addEventListener("resize", resizeCanvas);
-    window.addEventListener("scroll", () => {
-      // Update canvas position on scroll to keep it aligned
-      const containerRect = container.getBoundingClientRect();
-      canvas.style.left = `${containerRect.left}px`;
-    });
-
-    // Cleanup
-    return () => {
-      window.removeEventListener("resize", resizeCanvas);
-      window.removeEventListener("scroll", () => {});
-      if (animationFrameIdRef.current) {
-        cancelAnimationFrame(animationFrameIdRef.current);
-      }
-    };
-  }, []);
 
   return (
     <AnimatePresence>
@@ -174,11 +95,6 @@ const Page = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
       >
-        <canvas
-          ref={canvasRef}
-          className="absolute top-0 z-10 opacity-70 dark:opacity-50 pointer-events-none"
-          style={{ height: "100%", left: 0, right: 0 }}
-        />
 
         <ScrollAstronaut />
         <Navbar />

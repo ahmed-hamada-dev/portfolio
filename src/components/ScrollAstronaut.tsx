@@ -35,6 +35,81 @@ const ScrollAstronaut = () => {
     mass: 0.8,
   });
 
+  // ── All useTransform hooks MUST be called before any early return ──
+  // Position transforms: pure vw/vh for smooth interpolation
+  const x = useTransform(
+    smoothProgress,
+    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6,  0.65, 0.7,  0.78, 0.82,  0.88,  0.93,  1],
+    [
+      "80vw",   // Hero: bottom-right
+      "8vw",    // TechSlider: left side
+      "8vw",    // TechSlider hold
+      "40vw",   // Transition: gliding center
+      "70vw",   // Projects: right side
+      "70vw",   // Projects hold
+      "55vw",   // Re-entry: drifting center
+      "35vw",   // Re-entry: moving left
+      "10vw",   // About: settling left
+      "10vw",   // About: hold
+      "35vw",   // Gliding toward contact
+      "70vw",   // Contact: right side
+      "45vw",   // Footer: centering
+      "45vw",   // Footer: above name
+    ],
+  );
+
+  const y = useTransform(
+    smoothProgress,
+    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6,  0.65, 0.7,  0.78, 0.82,  0.88,  0.93,  1],
+    [
+      "75vh",   // Hero: near bottom
+      "30vh",   // TechSlider: mid
+      "30vh",   // TechSlider hold
+      "40vh",   // Transition: diving
+      "25vh",   // Projects: floating high
+      "25vh",   // Projects hold
+      "35vh",   // Re-entry: descending
+      "50vh",   // Re-entry: lower
+      "60vh",   // About: grounded
+      "60vh",   // About: hold
+      "50vh",   // Gliding up
+      "40vh",   // Contact: mid
+      "25vh",   // Footer: rising
+      "35vh",   // Footer: above name
+    ],
+  );
+
+  const rotate = useTransform(
+    smoothProgress,
+    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6, 0.65, 0.7, 0.78, 0.82, 0.88, 0.93, 1],
+    [0, -8, -5, 12, -6, -4, 10, 15, 0, 0, -5, -8, 0, 0],
+  );
+
+  const scale = useTransform(
+    smoothProgress,
+    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6, 0.65, 0.7, 0.78, 0.82, 0.88, 0.93, 1],
+    [0.6, 0.9, 0.9, 0.7, 1, 1, 0.8, 0.8, 1, 1, 0.9, 1, 1.1, 1],
+  );
+
+  const opacity = useTransform(
+    smoothProgress,
+    [0, 0.03, 0.33, 0.37, 0.63, 0.67, 1],
+    [0, 1, 1, 0.6, 0.6, 1, 1],
+  );
+
+  // Shadow & thruster transforms (were previously inline in JSX)
+  const shadowOpacity = useTransform(
+    smoothProgress,
+    [0, 0.65, 0.75, 1],
+    [0, 0, 0.5, 0.4],
+  );
+  const shadowScaleX = useTransform(smoothProgress, [0.65, 0.75], [0.3, 1]);
+  const thrusterOpacity = useTransform(
+    smoothProgress,
+    [0.3, 0.35, 0.4, 0.6, 0.65, 0.7],
+    [0, 1, 0, 0, 1, 0],
+  );
+
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
@@ -65,70 +140,8 @@ const ScrollAstronaut = () => {
     floatRotate.set(Math.sin(t * 0.8) * 3 + Math.cos(t * 0.5) * 2);
   });
 
-  if (isMobile) return null;
-
-  // ── Position transforms ──
-  // More keyframes = smoother gliding between sections (no sudden jumps)
-  const x = useTransform(
-    smoothProgress,
-    //  Hero   Tech   Tech   Trans  Proj   Proj   Re-ent Re-ent About  About  Cont   Cont   Footer Footer
-    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6,  0.65, 0.7,  0.78, 0.82,  0.88,  0.93,  1],
-    [
-      "calc(85vw - 60px)",  // Hero: bottom-right
-      "calc(8vw)",           // TechSlider: left side
-      "calc(8vw)",           // TechSlider hold
-      "calc(40vw)",          // Transition: gliding center
-      "calc(75vw - 100px)",  // Projects: right side
-      "calc(75vw - 100px)",  // Projects hold
-      "calc(55vw)",          // Re-entry: drifting center
-      "calc(35vw)",          // Re-entry: moving left
-      "calc(10vw)",          // About: settling left
-      "calc(10vw)",          // About: hold
-      "calc(35vw)",          // Gliding toward contact
-      "calc(70vw)",          // Contact: right side
-      "calc(50vw - 60px)",   // Footer: centering
-      "calc(50vw - 100px)",  // Footer: above name
-    ],
-  );
-
-  const y = useTransform(
-    smoothProgress,
-    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6,  0.65, 0.7,  0.78, 0.82,  0.88,  0.93,  1],
-    [
-      "calc(75vh)",          // Hero: near bottom
-      "calc(30vh)",          // TechSlider: mid
-      "calc(30vh)",          // TechSlider hold
-      "calc(40vh)",          // Transition: diving
-      "calc(25vh)",          // Projects: floating high
-      "calc(25vh)",          // Projects hold
-      "calc(35vh)",          // Re-entry: descending
-      "calc(50vh)",          // Re-entry: lower
-      "calc(60vh)",          // About: grounded
-      "calc(60vh)",          // About: hold
-      "calc(50vh)",          // Gliding up
-      "calc(40vh)",          // Contact: mid
-      "calc(25vh)",          // Footer: rising
-      "calc(35vh)",          // Footer: above name
-    ],
-  );
-
-  const rotate = useTransform(
-    smoothProgress,
-    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6, 0.65, 0.7, 0.78, 0.82, 0.88, 0.93, 1],
-    [0, -8, -5, 12, -6, -4, 10, 15, 0, 0, -5, -8, 0, 0],
-  );
-
-  const scale = useTransform(
-    smoothProgress,
-    [0, 0.12, 0.25, 0.32, 0.42, 0.55, 0.6, 0.65, 0.7, 0.78, 0.82, 0.88, 0.93, 1],
-    [0.6, 0.9, 0.9, 0.7, 1, 1, 0.8, 0.8, 1, 1, 0.9, 1, 1.1, 1],
-  );
-
-  const opacity = useTransform(
-    smoothProgress,
-    [0, 0.03, 0.33, 0.37, 0.63, 0.67, 1],
-    [0, 1, 1, 0.6, 0.6, 1, 1],
-  );
+  // ── Early return removed — show astronaut on all screens ──
+  const astroSize = isMobile ? 80 : 120;
 
   return (
     <motion.div
@@ -140,8 +153,8 @@ const ScrollAstronaut = () => {
         rotate,
         scale,
         opacity,
-        width: 120,
-        height: 120,
+        width: astroSize,
+        height: astroSize,
       }}
     >
       {/* Inner wrapper: floating bob + mouse parallax + wobble */}
@@ -150,7 +163,6 @@ const ScrollAstronaut = () => {
           y: floatY,
           rotate: floatRotate,
           x: smoothMouseX,
-          // translateY combines with floatY via the mouse parallax
         }}
       >
         {/* Depth shadow below (projects onto "ground") */}
@@ -159,13 +171,8 @@ const ScrollAstronaut = () => {
           style={{
             width: 60,
             height: 10,
-            // Shadow shrinks when astronaut is "higher" (less scroll = space = no ground)
-            opacity: useTransform(
-              smoothProgress,
-              [0, 0.65, 0.75, 1],
-              [0, 0, 0.5, 0.4],
-            ),
-            scaleX: useTransform(smoothProgress, [0.65, 0.75], [0.3, 1]),
+            opacity: shadowOpacity,
+            scaleX: shadowScaleX,
           }}
         />
 
@@ -182,13 +189,7 @@ const ScrollAstronaut = () => {
         {/* Thruster particles — visible during transitions */}
         <motion.div
           className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-1"
-          style={{
-            opacity: useTransform(
-              smoothProgress,
-              [0.3, 0.35, 0.4, 0.6, 0.65, 0.7],
-              [0, 1, 0, 0, 1, 0],
-            ),
-          }}
+          style={{ opacity: thrusterOpacity }}
         >
           {[0, 1, 2].map((i) => (
             <motion.div
@@ -213,8 +214,8 @@ const ScrollAstronaut = () => {
           loop
           autoplay
           style={{
-            width: 120,
-            height: 120,
+            width: astroSize,
+            height: astroSize,
             filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.3))",
           }}
         />

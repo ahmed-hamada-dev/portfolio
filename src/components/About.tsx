@@ -27,7 +27,8 @@ const About: React.FC = () => {
     {
       icon: <GlobeIcon className="w-8 h-8 text-snow-accent" />,
       title: "Cloud & DevOps",
-      description: "Automated scaling and professional infrastructure management.",
+      description:
+        "Automated scaling and professional infrastructure management.",
     },
   ];
 
@@ -44,13 +45,19 @@ const About: React.FC = () => {
     tl.fromTo(
       aboutReveals,
       { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, stagger: 0.2 }
-    )
-    .fromTo(
+      { y: 0, opacity: 1, duration: 1, stagger: 0.2 },
+    ).fromTo(
       skillCards,
       { scale: 0.9, opacity: 0, y: 30 },
-      { scale: 1, opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "back.out(1.7)" },
-      "-=0.5"
+      {
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "back.out(1.7)",
+      },
+      "-=0.5",
     );
   }, [isInView]);
 
@@ -60,35 +67,30 @@ const About: React.FC = () => {
       id="about"
       className="py-12 md:py-24 flex flex-col justify-center bg-background relative overflow-hidden w-full md:w-screen shrink-0 h-auto md:h-screen"
     >
-      <div 
-        className="container mx-auto px-4 relative z-10 origin-bottom"
-      >
+      <div className="container mx-auto px-4 relative z-10 origin-bottom">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Left Side: Content */}
           <div className="space-y-10">
             <div className="space-y-4">
-              <h2 className="about-reveal section-label">
-                The Architect
-              </h2>
+              <h2 className="about-reveal section-label">The Architect</h2>
               <h3 className="about-reveal section-title">
-                CRAFTING <span className="section-title-muted">DIGITAL</span> PRECISION
+                CRAFTING <span className="section-title-muted">DIGITAL</span>{" "}
+                PRECISION
               </h3>
             </div>
 
             <p className="about-reveal text-xl text-muted-foreground leading-relaxed max-w-xl">
-              I specialize in bridging the gap between <span className="text-foreground font-bold">visionary design</span> and <span className="text-foreground font-bold">complex engineering</span>. My approach focuses on creating applications that are not just functional, but exceptional.
+              I specialize in bridging the gap between{" "}
+              <span className="text-foreground font-bold">
+                visionary design
+              </span>{" "}
+              and{" "}
+              <span className="text-foreground font-bold">
+                complex engineering
+              </span>
+              . My approach focuses on creating applications that are not just
+              functional, but exceptional.
             </p>
-
-            <div className="about-reveal grid grid-cols-2 gap-8 pt-8 border-t border-border">
-              <div>
-                <h4 className="text-4xl font-black mb-2">2+</h4>
-                <p className="text-sm text-muted-foreground uppercase tracking-widest">Years Experience</p>
-              </div>
-              <div>
-                <h4 className="text-4xl font-black mb-2">30+</h4>
-                <p className="text-sm text-muted-foreground uppercase tracking-widest">Projects Delivered</p>
-              </div>
-            </div>
           </div>
 
           {/* Right Side: Skills Grid */}
